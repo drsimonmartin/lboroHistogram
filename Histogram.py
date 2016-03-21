@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Copyright Simon Martin
 
-This is a temporary script file.
+This code is released under the GNU Licence v2 – a copy of this is provided with the repository.
 """
 
 import pandas as pd # Pandas use here for easy manipulation of CSV files
