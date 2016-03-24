@@ -3,6 +3,8 @@ Produces histograms of Loughborough University module results data
 
 Requires: python (tested with 2.7.11), matplotlib, pandas, numpy
 
+Update 24-3-2016 Added control of layout – can now set maximum number of plots in a single column. Function to allow plot size to be changed added.
+
 to use:
 
 I recommend running in an iPython session. It can be used outside of ipython, but you will need to work out how to deal with changing directory etc. yourself.
