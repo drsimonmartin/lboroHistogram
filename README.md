@@ -16,10 +16,13 @@ hgm.HistoFiles('filename_criteria')
 The function HistoFiles will scan the current directory for files that match the criteria provided. These criteria follow usual wildcard rules e.g. '15MP\*.csv will pick out all the files with 15MP at the beginning of their names and .csv at the ends; 15MPC\*.csv will pick out all the 15MPC files.
 
 HistoFiles is the main function in the Histogram suite:
-    Call with ```python HistoFiles(criteria,rowmax=6,debug=False)```
-        ```pythoncriteria``` is a python string that can include wildcards e.g. '15MPC*.csv'
-        ```pythonrowmax```: maximum number of rows in output figure (defaults to 6)
-        ```python```debug: when set to true, prnts out diagnostics as function runs
+    Call with 
+    ```python 
+    HistoFiles(criteria,rowmax=6,debug=False)
+    ```
+        ```python criteria``` is a python string that can include wildcards e.g. '15MPC*.csv'
+        ```python rowmax```: maximum number of rows in output figure (defaults to 6)
+        ```python debug```: when set to true, prnts out diagnostics as function runs
 
 Sometimes the default figure size will be too big/small/wrong aspect ratio...
 This can be modified via the function plotSize:
