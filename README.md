@@ -17,9 +17,11 @@ The function HistoFiles will scan the current directory for files that match the
 
 HistoFiles is the main function in the Histogram suite:
     Call with 
+    
     ```python 
     HistoFiles(criteria,rowmax=6,debug=False)
     ```
+    
         ```python criteria``` is a python string that can include wildcards e.g. '15MPC*.csv'
         ```python rowmax```: maximum number of rows in output figure (defaults to 6)
         ```python debug```: when set to true, prnts out diagnostics as function runs
