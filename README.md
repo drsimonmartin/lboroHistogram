@@ -18,13 +18,13 @@ The function HistoFiles will scan the current directory for files that match the
 HistoFiles is the main function in the Histogram suite:
     Call with 
     
-    ```python 
-    HistoFiles(criteria,rowmax=6,debug=False)
-    ```
+```python 
+HistoFiles(criteria,rowmax=6,debug=False)
+```
     
-        ```python criteria``` is a python string that can include wildcards e.g. '15MPC*.csv'
-        ```python rowmax```: maximum number of rows in output figure (defaults to 6)
-        ```python debug```: when set to true, prnts out diagnostics as function runs
+```python criteria``` is a python string that can include wildcards e.g. '15MPC*.csv'
+```python rowmax```: maximum number of rows in output figure (defaults to 6)
+```python debug```: when set to true, prnts out diagnostics as function runs
 
 Sometimes the default figure size will be too big/small/wrong aspect ratio...
 This can be modified via the function plotSize:
