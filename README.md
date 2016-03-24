@@ -21,22 +21,34 @@ HistoFiles is the main function in the Histogram suite:
 ```python 
 HistoFiles(criteria,rowmax=6,debug=False)
 ```
-    
+
+where
+
 ```python 
 criteria
-``` is a python string that can include wildcards e.g. '15MPC*.csv'
+``` 
+
+is a python string that can include wildcards e.g. '15MPC*.csv'
+
 ```python 
 rowmax
-```: maximum number of rows in output figure (defaults to 6)
+```
+
+maximum number of rows in output figure (defaults to 6)
+
 ```python
 debug
-```: when set to true, prnts out diagnostics as function runs
+```
+
+when set to true, prnts out diagnostics as function runs
 
 Sometimes the default figure size will be too big/small/wrong aspect ratio...
 This can be modified via the function plotSize:
+
 ```python
 plotSize(width=10,height=10)
 ```
+
 This function will change the size according to the parameters sent to it. You will need to re-run HistoFiles to generate the histograms using this new form factor.
 Note 1: the units of the sizes are inches
 Note 2: the figure size on the screen may be a scaled version of the dimensions set – when you open the plot in a separate program it will have the specified dimensions.
