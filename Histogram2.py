@@ -160,6 +160,10 @@ def HistoFiles(criteria,rowmax=6,debug=False):
             #axarr[len(files)-1].set_xlabel("module mark %")
                     f.tight_layout()
                     if debug: print idx, 'idx%2',idx%2
+                else:
+                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100)
+                    axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
+                    axarr[rowCount,idx-nCols*rowCount].axis([0,100,0,6])
             else:
                 if debug: print ResultList
             #dataSet.append(ResultList)
