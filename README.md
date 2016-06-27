@@ -21,7 +21,7 @@ HistoFiles is the main function in the Histogram suite:
     Call with 
     
 ```python 
-HistoFiles(criteria,rowmax=6,debug=False)
+HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25)
 ```
 
 where
@@ -43,6 +43,16 @@ debug
 ```
 
 when set to true, prnts out diagnostics as function runs
+
+```python
+elements
+```
+
+When set to True generates semi-transparent histograms of the elements of assessment along with the main histogram for each module
+```python
+transparency
+```
+Set the transparency level of the element histograms. Defaults to 0.25. Can take values in range 0(invisible) to 1 (opaque).
 
 Sometimes the default figure size will be too big/small/wrong aspect ratio...
 This can be modified via the function plotSize:
