@@ -21,7 +21,7 @@ HistoFiles is the main function in the Histogram suite:
     Call with 
     
 ```python 
-HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25)
+HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rmin=0,rmax=100)
 ```
 
 where
@@ -53,6 +53,11 @@ When set to True generates semi-transparent histograms of the elements of assess
 transparency
 ```
 Set the transparency level of the element histograms. Defaults to 0.25. Can take values in range 0(invisible) to 1 (opaque).
+
+```python
+rmin,rmax
+```
+Setting rmin,rmax allows x axis range to be set. 0-100 is sensible range, but any combination is allowed.
 
 Sometimes the default figure size will be too big/small/wrong aspect ratio...
 This can be modified via the function plotSize:
