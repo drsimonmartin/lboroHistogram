@@ -150,7 +150,7 @@ def plotSize(width=10,height=10):
     rcParams['figure.figsize'] = width,height
     return
 
-def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25):
+def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rmin=0,rmax=100):
     """
     Function to produce histogram(s) of csv files with names matched by criteria
     
@@ -185,12 +185,12 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25):
                     if debug: print 'hello'
                     rowCount=rowCount+1
                     if debug: print 'rowCount=',rowCount,'idx=',idx,'idx-2*rowCount=',idx-2*rowCount
-                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100)
+                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
                     if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,alpha=transparency)
+                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
                             
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
                     axarr[rowCount,idx-nCols*rowCount].axis([0,100,0,6])
@@ -198,25 +198,25 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25):
                     f.tight_layout()
                     if debug: print idx, 'idx%2',idx%2
                 else:
-                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100)
+                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
                     if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,alpha=transparency)
+                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
                             
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([0,100,0,6])
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,6])
             else:
                 if debug: print ResultList
             #dataSet.append(ResultList)
                 
-                n,bins,patches=axarr[idx].hist(np.asarray(ResultList),100)
+                n,bins,patches=axarr[idx].hist(np.asarray(ResultList),100,range=(0,100))
                 if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-                            n,bins,patches=axarr[idx].hist(ResultList,100,alpha=transparency)
+                            n,bins,patches=axarr[idx].hist(ResultList,100,range=(0,100),alpha=transparency)
                 axarr[idx].set_title(val[0:8])
                 axarr[idx].axis([0,100,0,6])
             #axarr[len(files)-1].set_xlabel("module mark %")
@@ -240,25 +240,27 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25):
     #For each row of results, go through and calcualte the module mark
         if elements == False:
             ResultList=makeResultsList(df) 
-            n,bins,patches=plt.hist(ResultList,100)
+            n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
             plt.show() 
         elif elements == True:
             # Need to produce histograms of each element
             # Draw overall results first
             ResultList=makeResultsList(df) 
-            n,bins,patches=plt.hist(ResultList,100)
+            n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
             #now draw the components, use alpha channel to set opacity
             for i in xrange(0,nAssessments(df)):
                 print "i=",i
                 ResultList=makeListAssessN(df,i)
-                n,bins,patches=plt.hist(ResultList,100,alpha=transparency)
-            
+                if debug: print ResultList
+                n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100),alpha=transparency)
+            plt.xlim(rmin,rmax)
             plt.show()
             #plt.show
     elif len(files)<=0:
         print 'No files that match the criteria found'
 
     return
+
 
 
 
