@@ -174,6 +174,7 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
         f, axarr = plt.subplots(nrows=nRows,ncols=nCols, sharex=True) # setup an array in which to put the plots
         print nRows,nCols
         for idx, val in enumerate(files):
+            ymax=0
             df=pd.read_csv(val,na_values=0) #read current file into series
             
     #For each row of results, go through and calculate the module mark
@@ -185,40 +186,47 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
                     if debug: print 'hello'
                     rowCount=rowCount+1
                     if debug: print 'rowCount=',rowCount,'idx=',idx,'idx-2*rowCount=',idx-2*rowCount
+                    ymax=0                    
                     n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
+                    if max(n)>ymax: ymax=max(n)# keep track of maximum y value
                     if elements==True:
                         # Need to produce plots of the elements as well
+                        
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
                             n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
-                            
+                            if max(n)>ymax: ymax=max(n)
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,6])
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax+1])
             #axarr[len(files)-1].set_xlabel("module mark %")
                     f.tight_layout()
                     if debug: print idx, 'idx%2',idx%2
                 else:
                     n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
+                    if max(n)>ymax: ymax=max(n)
                     if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
                             n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
-                            
+                            if max(n)>ymax: ymax=max(n)
+                                
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,6])
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax+1])
             else:
                 if debug: print ResultList
             #dataSet.append(ResultList)
                 
                 n,bins,patches=axarr[idx].hist(np.asarray(ResultList),100,range=(0,100))
+                if max(n)>ymax: ymax=max(n)
                 if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
                             n,bins,patches=axarr[idx].hist(ResultList,100,range=(0,100),alpha=transparency)
+                            if max(n)>ymax: ymax=max(n)
                 axarr[idx].set_title(val[0:8])
-                axarr[idx].axis([0,100,0,6])
+                axarr[idx].axis([0,100,0,ymax+1])
             #axarr[len(files)-1].set_xlabel("module mark %")
                 f.tight_layout()
                 
@@ -232,6 +240,7 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
     # some code for only one file to work on
         print 'One file found'
         df=pd.read_csv(files[0],na_values=0.)
+        ymax=0
         #nAssess = int(df.iloc[4,2]) # number of assessments
     
         #make list of assessment values
@@ -241,19 +250,22 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
         if elements == False:
             ResultList=makeResultsList(df) 
             n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
+            if max(n)>ymax: ymax=max(n)
+            plt.xlim(rmin,rmax,0,ymax)    
             plt.show() 
         elif elements == True:
             # Need to produce histograms of each element
             # Draw overall results first
             ResultList=makeResultsList(df) 
             n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
+            if max(n)>ymax: ymax=max(n)
             #now draw the components, use alpha channel to set opacity
             for i in xrange(0,nAssessments(df)):
-                print "i=",i
                 ResultList=makeListAssessN(df,i)
                 if debug: print ResultList
                 n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100),alpha=transparency)
-            plt.xlim(rmin,rmax)
+                if max(n)>ymax: ymax=max(n)
+            plt.xlim(rmin,rmax,0,ymax)
             plt.show()
             #plt.show
     elif len(files)<=0:
