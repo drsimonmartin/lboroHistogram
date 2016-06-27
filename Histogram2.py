@@ -193,7 +193,7 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
                             n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
                             
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([0,100,0,6])
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,6])
             #axarr[len(files)-1].set_xlabel("module mark %")
                     f.tight_layout()
                     if debug: print idx, 'idx%2',idx%2
