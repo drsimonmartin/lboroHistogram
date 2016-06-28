@@ -263,8 +263,10 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
             ResultList=makeResultsList(df) 
             n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
             if max(n)>ymax: ymax=max(n)
-            plt.xlim(rmin,rmax,0,ymax*1.1)    
+            plt.xlim(rmin,rmax)
+            plt.ylim(0,ymax*1.1)    
             plt.show() 
+            print ymax
         elif elements == True:
             # Need to produce histograms of each element
             # Draw overall results first
@@ -277,9 +279,12 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
                 if debug: print ResultList
                 n,bins,patches=plt.hist(ResultList,bins=nbins,range=(0,100),alpha=transparency)
                 if max(n)>ymax: ymax=max(n)
-            plt.xlim(rmin,rmax,0,ymax*1.1)
+            plt.xlim(rmin,rmax)
+            plt.ylim(0,ymax*1.1)
             plt.show()
             #plt.show
+            print ymax
+            
     elif len(files)<=0:
         print 'No files that match the criteria found'
 
