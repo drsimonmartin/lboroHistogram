@@ -154,14 +154,25 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
     """
     Function to produce histogram(s) of csv files with names matched by criteria
     
-    Call with HistoFiles(criteria,rowmax=6,debug=False,elements=False)
+    Call with HistoFiles(criteria,rowmax=6,debug=False,elements=False,
+                         transparency=0.25,rmin=0,rmax=100,binning=1)
+        
         criteria is a python string that can include wildcards e.g. '15MPC*.csv'
+        
         rowmax: maximum number of rows in output figure (defaults to 6)
+        
         debug: when set to true, prnts out diagnostics as function runs
+        
         elements: when set to true will produce histograms of all the elements of the module
+        
+        transparency: set transparency of the elements (0=transparent through to 1 opaque)
+        
+        rmin, rmax: the ranges used for the x-axis (in percent)
+        
+        binning: the width of the bins used for the data in %
     """
-    #work out number of bins needed
-    nbins = int(100/binning)
+    # work out number of bins required
+    nbins=int(100/binning)
     #files=glob.glob("15MPP*.csv") # get list of file names
     files=glob.glob(criteria) # get list of file names
     print len(files) 
@@ -187,81 +198,47 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
                     if debug: print 'hello'
                     rowCount=rowCount+1
                     if debug: print 'rowCount=',rowCount,'idx=',idx,'idx-2*rowCount=',idx-2*rowCount
-<<<<<<< Updated upstream
                     ymax=0                    
-                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
-                    if max(n)>ymax: ymax=max(n)# keep track of maximum y value
-=======
                     n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),nbins,range=(0,100))
-                    
->>>>>>> Stashed changes
+                    if max(n)>ymax: ymax=max(n)# keep track of maximum y value
                     if elements==True:
                         # Need to produce plots of the elements as well
                         
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-<<<<<<< Updated upstream
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
+                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,nbins,range=(0,100),alpha=transparency)
                             if max(n)>ymax: ymax=max(n)
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax+1])
-=======
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,nbins,range=(0,100),alpha=transparency)
-                            
-                    axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    print max(n)
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,6])
->>>>>>> Stashed changes
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax*1.1])
             #axarr[len(files)-1].set_xlabel("module mark %")
                     f.tight_layout()
                     if debug: print idx, 'idx%2',idx%2
                 else:
-<<<<<<< Updated upstream
-                    n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),100,range=(0,100))
-                    if max(n)>ymax: ymax=max(n)
-=======
                     n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(np.asarray(ResultList),nbins,range=(0,100))
->>>>>>> Stashed changes
+                    if max(n)>ymax: ymax=max(n)
                     if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-<<<<<<< Updated upstream
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,100,range=(0,100),alpha=transparency)
+                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,nbins,range=(0,100),alpha=transparency)
                             if max(n)>ymax: ymax=max(n)
                                 
                     axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax+1])
-=======
-                            n,bins,patches=axarr[rowCount,idx-nCols*rowCount].hist(ResultList,nbins,range=(0,100),alpha=transparency)
-                            
-                    axarr[rowCount,idx-nCols*rowCount].set_title(val[0:8])
-                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax])
->>>>>>> Stashed changes
+                    axarr[rowCount,idx-nCols*rowCount].axis([rmin,rmax,0,ymax*1.1])
             else:
                 if debug: print ResultList
             #dataSet.append(ResultList)
                 
-<<<<<<< Updated upstream
-                n,bins,patches=axarr[idx].hist(np.asarray(ResultList),100,range=(0,100))
-                if max(n)>ymax: ymax=max(n)
-=======
                 n,bins,patches=axarr[idx].hist(np.asarray(ResultList),nbins,range=(0,100))
->>>>>>> Stashed changes
+                if max(n)>ymax: ymax=max(n)
                 if elements==True:
                         # Need to produce plots of the elements as well
                         for i in xrange(0,nAssessments(df)):
                             ResultList=makeListAssessN(df,i)
-<<<<<<< Updated upstream
-                            n,bins,patches=axarr[idx].hist(ResultList,100,range=(0,100),alpha=transparency)
+                            n,bins,patches=axarr[idx].hist(ResultList,nbins,range=(0,100),alpha=transparency)
                             if max(n)>ymax: ymax=max(n)
                 axarr[idx].set_title(val[0:8])
-                axarr[idx].axis([0,100,0,ymax+1])
-=======
-                            n,bins,patches=axarr[idx].hist(ResultList,nbins,range=(0,100),alpha=transparency)
-                axarr[idx].set_title(val[0:8])
-                axarr[idx].axis([0,100,0,max(n)])
->>>>>>> Stashed changes
+                axarr[idx].axis([rmin,rmax,0,ymax*1.1])
             #axarr[len(files)-1].set_xlabel("module mark %")
                 f.tight_layout()
                 
@@ -284,36 +261,23 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
     #For each row of results, go through and calcualte the module mark
         if elements == False:
             ResultList=makeResultsList(df) 
-<<<<<<< Updated upstream
             n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
             if max(n)>ymax: ymax=max(n)
-            plt.xlim(rmin,rmax,0,ymax)    
-=======
-            n,bins,patches=plt.hist(ResultList,nbins,range=(0,100))
->>>>>>> Stashed changes
+            plt.xlim(rmin,rmax,0,ymax*1.1)    
             plt.show() 
         elif elements == True:
             # Need to produce histograms of each element
             # Draw overall results first
             ResultList=makeResultsList(df) 
-<<<<<<< Updated upstream
-            n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
+            n,bins,patches=plt.hist(ResultList,bins=nbins,range=(0,100))
             if max(n)>ymax: ymax=max(n)
-=======
-            n,bins,patches=plt.hist(ResultList,nbins,range=(0,100))
->>>>>>> Stashed changes
             #now draw the components, use alpha channel to set opacity
             for i in xrange(0,nAssessments(df)):
                 ResultList=makeListAssessN(df,i)
                 if debug: print ResultList
-<<<<<<< Updated upstream
-                n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100),alpha=transparency)
+                n,bins,patches=plt.hist(ResultList,bins=nbins,range=(0,100),alpha=transparency)
                 if max(n)>ymax: ymax=max(n)
-            plt.xlim(rmin,rmax,0,ymax)
-=======
-                n,bins,patches=plt.hist(ResultList,nbins,range=(0,100),alpha=transparency)
-            plt.xlim(rmin,rmax)
->>>>>>> Stashed changes
+            plt.xlim(rmin,rmax,0,ymax*1.1)
             plt.show()
             #plt.show
     elif len(files)<=0:
