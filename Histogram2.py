@@ -72,7 +72,7 @@ def makeAssessList(df):
 
 def makeResultsList(df):
     """
-    create a list of module results for the students in the file pointed to by df
+    create a list of module results for the students in the file represented by df
     Assume that student registration numbers begin with either "A" (for historical comparisons) or "B"
     If this program is in use in a few years this may break
 
@@ -95,6 +95,35 @@ def makeResultsList(df):
         ResultList.extend([calcResult(df,assList,i)])
         i=i+1
     return ResultList
+    
+def CalcResults(df):
+    """
+    Calc module results
+    df contains data from a module CSV file
+    Assume that student registration numbers begin with either "A" (for historical comparisons) or "B"
+    If this program is in use in a few years this may break
+
+    Output:
+        List of results suitable for plotting as histogram
+    """
+    # get list of assessment values
+    assList=makeAssessList(df)
+    #For each row of results, go through and calcualte the module mark
+    ResultList=[]
+
+    #df.fillna('0',inplace=True) # cover up NA values with zeroes.
+    #print df
+
+    #first data row is row 11
+    i=11
+    while df.iloc[i,0].startswith("B") or df.iloc[i,0].startswith("A"):
+    #print df.iloc[i,0]
+    #for i in range(11,60) :
+        #ResultList.extend([calcResult(df,assList,i)])
+        #chaneg this so that it adds a colums to the dataframe
+        df.iloc[i,]
+        i=i+1
+    return df
  
 def makeListAssessN(df,n=0):
     """
@@ -290,7 +319,31 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
 
     return
 
+def moduleStats(module,debug=False):
+    """ 
+    returns basic statistics on module(s) given by "module". Expects Lboro module results file.
 
+    module is a python string that can include wildcards e.g. '15MPC*.csv'
+    
+    gives results for one file per line of output
+
+    debug optin gives extra output
+    """
+    
+    files=glob.glob(module) # get list of file names
+    print 'Output for ',len(files),' files'
+    for idx,val in enumerate(files):
+        df=pd.read_csv(val) #read current file into series
+        #replace zeros with NaN
+        df=df.replace(0,np.NaN)   
+    #For each row of results, go through and calculate the module mark
+        ResultList=makeResultsList(df)
+        ResultSeries=pd.Series(ResultList)
+        if debug:print ResultSeries
+        #print val,' mean=',ResultSeries.mean()
+        print '{0} mean={1:.1f}'.format(val,ResultSeries.mean())
+         
+    return
 
 
 
