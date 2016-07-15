@@ -179,18 +179,22 @@ def plotSize(width=10,height=10):
     rcParams['figure.figsize'] = width,height
     return
 
-def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rmin=0,rmax=100,binning=1):
+def HistoFiles(criteria,rowmax=6,debug=False,save=False,saveName='histogram.png',elements=False,transparency=0.25,rmin=0,rmax=100,binning=1):
     """
     Function to produce histogram(s) of csv files with names matched by criteria
     
-    Call with HistoFiles(criteria,rowmax=6,debug=False,elements=False,
-                         transparency=0.25,rmin=0,rmax=100,binning=1)
+    Call with HistoFiles(criteria,rowmax=6,debug=False,save=False,saveName='histogram.png',
+                         elements=False,transparency=0.25,rmin=0,rmax=100,binning=1)
         
         criteria is a python string that can include wildcards e.g. '15MPC*.csv'
         
         rowmax: maximum number of rows in output figure (defaults to 6)
         
         debug: when set to true, prnts out diagnostics as function runs
+        
+        save: switch to save histogram plot or not
+        
+        saveName: name to save plot to
         
         elements: when set to true will produce histograms of all the elements of the module
         
@@ -204,7 +208,7 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
     nbins=int(100/binning)
     #files=glob.glob("15MPP*.csv") # get list of file names
     files=glob.glob(criteria) # get list of file names
-    print len(files) 
+    if debug: print len(files) 
     #if debug: print files
     if len(files)>1:
     #have found multiple files that meet the search citeria
@@ -213,7 +217,7 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
         nRows,nCols=Geometry(len(files),rowmax)
         #f, axarr = plt.subplots(nrows=nRows,ncols=nCols, sharex=True) # setup an array in which to put the plots
         f, axarr = plt.subplots(nrows=nRows,ncols=nCols, sharex=True) # setup an array in which to put the plots
-        print nRows,nCols
+        if debug:print nRows,nCols
         for idx, val in enumerate(files):
             ymax=0
             df=pd.read_csv(val,na_values=0) #read current file into series
@@ -269,14 +273,15 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
                 axarr[idx].set_title(val[0:8])
                 axarr[idx].axis([rmin,rmax,0,ymax*1.1])
             #axarr[len(files)-1].set_xlabel("module mark %")
-                f.tight_layout()
-                
+                #f.tight_layout()
+                #axarr.savefig(saveName)
         #print dataSet
         #plt.hist(dataSet,bins=100,stacked=True,sharex=True)
         #dataSet.plot(kind='hist', alpha=0.5)
+        f.tight_layout()
         
         plt.show()
-        
+        if save: f.savefig(saveName)
     elif len(files)==1:
     # some code for only one file to work on
         print 'One file found'
@@ -287,14 +292,14 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
         #make list of assessment values
         #assList=makeAssessList(df)
     #print assList
-    #For each row of results, go through and calcualte the module mark
+    #For each row of results, go through and calculate the module mark
         if elements == False:
             ResultList=makeResultsList(df) 
             n,bins,patches=plt.hist(ResultList,bins=100,range=(0,100))
             if max(n)>ymax: ymax=max(n)
             plt.xlim(rmin,rmax)
             plt.ylim(0,ymax*1.1)    
-            plt.show() 
+            
             print ymax
         elif elements == True:
             # Need to produce histograms of each element
@@ -311,12 +316,17 @@ def HistoFiles(criteria,rowmax=6,debug=False,elements=False,transparency=0.25,rm
             plt.xlim(rmin,rmax)
             plt.ylim(0,ymax*1.1)
             plt.show()
+            plt.savefig(saveName)
+            #if save:
+                #plt.savefig(saveName)
             #plt.show
             print ymax
+        if save: plt.savefig(saveName)
+        plt.show()
             
     elif len(files)<=0:
         print 'No files that match the criteria found'
-
+    
     return
 
 def moduleStats(module,debug=False):
@@ -341,7 +351,7 @@ def moduleStats(module,debug=False):
         ResultSeries=pd.Series(ResultList)
         if debug:print ResultSeries
         #print val,' mean=',ResultSeries.mean()
-        print '{0} mean={1:.1f}'.format(val,ResultSeries.mean())
+        print '{0} mean={1:.1f} Stand. Dev.={2:.1f}'.format(val.split()[0],ResultSeries.mean(),ResultSeries.std())
          
     return
 
