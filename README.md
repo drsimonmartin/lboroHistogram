@@ -1,4 +1,13 @@
 # lboroHistogram
+
+## Important Note
+
+Development of this libary has been halted in favour of a new library that can be downloaded from the repository: lboro_results_stats
+
+The new libary works with a single results file as supplied LUSI rather than the multiple input files. In addition it produces tables of results.
+
+The rest of this ReadME describes the lboroHistogram library
+
 Produces histograms of Loughborough University module results data
 
 Requires: python (tested with 2.7.11), matplotlib, pandas, numpy
